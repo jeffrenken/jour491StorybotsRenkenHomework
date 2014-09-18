@@ -23,7 +23,6 @@ if lengthCurrentYear > 2:
     previousYearList = dataList[-2]
     previousYearList = filter(None,previousYearList)
     previousYear = (previousYearList[0])
-
     previousMonth = str(lengthCurrentYear-2)
     previousMonthName = datetime.datetime.strptime(previousMonth,'%m').strftime('%B')
 
@@ -37,7 +36,6 @@ else:
     monthNumber = str(lengthCurrentYear-1) #convert last month number to string(next line needs it as string)
     monthName = datetime.datetime.strptime(monthNumber,'%m').strftime('%B')   #Actual month name from number
     previousYear = (previousYearList[0])
-
     previousMonth = str(12)
     previousMonthName = datetime.datetime.strptime(previousMonth,'%m').strftime('%B')
 
@@ -45,7 +43,6 @@ else:
 previousYearList = dataList[-2]
 previousYearMonthRate = previousYearList[lengthCurrentYear-1]
 
-   #Actual month name from number
 
 # Year before increase/decrease verb
 if currentMonthRate > previousYearMonthRate:
@@ -66,7 +63,7 @@ else:
 percentChange = abs((float(currentMonthRate)-float(previousMonthRate))/float(previousMonthRate)*100)
 
 
-print "The Bureau of Labor Statistics reported the unemployment rate to be %s percent in %s of %s. This is %s of %.1f percent from the %s rate of %s percent and %s from the %s %s rate of %s%%." % (currentMonthRate, monthName, currentYear,  monthDirection, percentChange,  previousMonthName, previousMonthRate, yearDirection, monthName, previousYear, previousYearMonthRate)
+print "The Bureau of Labor Statistics reported the unemployment rate to be %s percent in %s of %s. This is %s of %.1f percent from the %s rate of %s percent and %s from the %s %s unemployment rate which was %s percent." % (currentMonthRate, monthName, currentYear,  monthDirection, percentChange,  previousMonthName, previousMonthRate, yearDirection, monthName, previousYear, previousYearMonthRate)
 
 #find consecutive months, only works up to 1 year
 counter = len(currentYearList)-2
