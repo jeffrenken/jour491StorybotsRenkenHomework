@@ -1,8 +1,15 @@
 __author__ = 'jeffreyrenken'
+"""
+crimeStory bot reads from UCRdata.csv to write a story based on every city's crime data
 
-#crimeStory bot reads from UCRdata.csv to write a story based on every city's crime data
+Outputs look something like this for every town:
+BURBANK, Calif. -- Police in Burbank reported a 0.8 percent decrease in the overall crime rate in 2012, a decline for the third consecutive year.
+The property crime rate in the city dropped 2.9 percent. Based on crimes per 100,000 residents, this is a decrease from 2444 crimes in 2011 to 2373 crimes in 2012.
+The violent crime rate increased 2.9 percent to 231 crimes per 100,000 residents.
+Using the 2012 overall crime rate, Burbank is the 42nd safest city in the U.S.
 
-
+Generally if a number, word or clause looks like a variable, it probably is.
+"""
 import string, csv, operator, sys
 
 ucrData = list(csv.reader(open('UCRdata.csv', 'rU'), dialect="excel"))
@@ -26,22 +33,15 @@ for row in ucrData[1:]:
                 dictCityCrime[cityState] = sortCrimeRate2012
     else:
         sortCrimeRate2012 = None
-"""
-    sortCity = row[2]
-    sortStateAP = row[1]
-    cityState = "%s, %s" % (sortCity, sortStateAP)
 
-    if sortCrimeRate2012 != None:
-        dictCityCrime[cityState] = sortCrimeRate2012
-#print dictCityCrime
-"""
 sorted_dictCityCrime = sorted(dictCityCrime.items(), key=operator.itemgetter(1))
+
 
 
 #start of main For loop that creates every story
 for row in ucrData[1:]:
 
-    #Create list of cities with unreported data. Last line could be put in else clauses to be more specific, but repeats
+#Create list of cities with unreported data. Last line could be put in else clauses to be more specific, but repeats
     testList = filter(None,row)
     if len(testList) < len(row):
         unreportedList.append(testList)
@@ -113,35 +113,43 @@ for row in ucrData[1:]:
     if row[40]:
         if row[34]:
             propertyCrimeRate2009 = ((float(row[40]))/float(row[34]))*100000
+            propertyCrimes2009 = float(row[40])
     else:
         propertyCrimeRate2009 = None
+        propertyCrimes2009 = None
 
 
     if row[30]:
         if row[24]:
             propertyCrimeRate2010 = ((float(row[30]))/float(row[24]))*100000
+            propertyCrimes2010 = float(row[30])
     else:
         propertyCrimeRate2010 = None
+        propertyCrimes2010 = None
 
 
     if row[20]:
         if row[14]:
             propertyCrimeRate2011 = ((float(row[20]))/float(row[14]))*100000
+            propertyCrimes2011 = float(row[20])
     else:
         propertyCrimeRate2011 = None
+        propertyCrimes2011 = None
 
 
     if row[9]:
         if row[3]:
             propertyCrimeRate2012 = ((float(row[9]))/float(row[3]))*100000
+            propertyCrimes2012 = float(row[9])
     else:
         propertyCrimeRate2012 = None
+        propertyCrimes2012 = None
 
 
 #Calc Property Crime percent change
     propertyPercentChange = ((propertyCrimeRate2012-propertyCrimeRate2011) / propertyCrimeRate2011)*100
 
-#Vebs property crime
+#Vebs property crime - rate, percent
     if propertyPercentChange > 0:
         propertyPercentChangeDirection = "an increase"
         propertyRateChangeDirection = "rose"
@@ -151,6 +159,12 @@ for row in ucrData[1:]:
     else:
         propertyPercentChangeDirection = "unchanged"
         propertyRateChangeDirection = "stayed constant"
+
+#compare number of property crimes - not rate
+    if propertyCrimes2012 > propertyCrimes2011:
+        propertyCrimesVerb = "an increase"
+    else :
+        propertyCrimesVerb = "a decrease"
 
     propertyPercentChange = abs(propertyPercentChange)
 
@@ -215,7 +229,7 @@ for row in ucrData[1:]:
 #check for overall unreported data
     try:
         #cityRank = [y[0] for y in sorted_dictCityCrime].index(rankedCityState)
-        sys.stdout.write (" Police reported a %.01f percent %s in overall crime in 2012%s." % (crPercentChange, crPercentChangeDirection, crimeRateTrend))
+        sys.stdout.write (" Police in %s reported a %.01f percent %s in the overall crime rate in 2012%s." % (city, crPercentChange, crPercentChangeDirection, crimeRateTrend))
     except TypeError: #ValueError
         sys.stdout.write (" Overall crime for %s is not available due to unreported crime data." % (city))
         #i = -1
@@ -223,13 +237,13 @@ for row in ucrData[1:]:
 #check for property crime unreported data
 
     try:
-        sys.stdout.write (" Property crime in the city %s %.01f percent. This is %s from %.0f crimes per 100,000 residents in 2011 to %.0f in 2012." % (propertyRateChangeDirection, propertyPercentChange, propertyPercentChangeDirection, propertyCrimeRate2011, propertyCrimeRate2012))
+        sys.stdout.write (" The property crime rate in the city %s %.01f percent. Based on crimes per 100,000 residents, this is %s from %.0f crimes in 2011 to %.0f crimes in 2012." % (propertyRateChangeDirection, propertyPercentChange, propertyPercentChangeDirection, propertyCrimeRate2011, propertyCrimeRate2012))
     except TypeError:
         sys.stdout.write (" Property crime rates are unavailable due to unreported data.")
 
 #check for violent crime unreported data
     try:
-        sys.stdout.write (" Violent crime %s %.01f percent to %.0f per 100,000 residents." % (violentPercentChangeDirection, violentPercentChange, violentCrimeRate2012))
+        sys.stdout.write (" The violent crime rate %s %.01f percent to %.0f crimes per 100,000 residents." % (violentPercentChangeDirection, violentPercentChange, violentCrimeRate2012))
     except TypeError:
         sys.stdout.write (" Violent crime rates are unavailable due to unreported data.")
 
@@ -269,26 +283,22 @@ for row in ucrData[1:]:
         cityRank +=1
         #Call ordinal converting cityRank
         cityRankString = ordinal(cityRank);
-        sys.stdout.write (" Based on the 2012 overall crime rate, %s is the %s safest city in the U.S." % (city, cityRankString))
+        sys.stdout.write (" Using the 2012 overall crime rate, %s is the %s safest city in the U.S." % (city, cityRankString))
 
     except ValueError:
         i = -1
         #sys.stdout.write (" Due to unreported 2012 crime data, %s isn't ranked." % (city))
 
-
-
-#This could be changed to one print statement now, but I don't care.
-
-    #sys.stdout.write ("%s police reported a %.01f percent %s in overall crime in 2012%s. Property crime in the city %s %.01f percent. This is %s from %.0f crimes per 100,000 residents in 2011 to %.0f in 2012. Violent crime %s %.01f percent to %.0f per 100,000 residents." % (city, crPercentChange, crPercentChangeDirection, crimeRateTrend, propertyRateChangeDirection, propertyPercentChange, propertyPercentChangeDirection, propertyCrimeRate2011, propertyCrimeRate2012, violentPercentChangeDirection, violentPercentChange, violentCrimeRate2012))
-    #sys.stdout.write (" Based on the 2012 overall crime rate, %s is the %s safest city in the U.S." % (city, cityRankString))
     print ""
     print ""
 
-print "Cities with unreported data:"
+print "These cities have unreported data. Might want to check them."
 for item in unreportedList:
     print "%s, %s" % (item[2], item[0])
 
 """
+Now unnecessary stuff
+
 #find highest and lowest crime rates
     if crimeRate2012:
         if crimeRate2012 < crimeRateLowest:
@@ -301,25 +311,9 @@ for item in unreportedList:
             crimeRateHighest = crimeRate2012
             highestCrimeRateCity = row[2]
 
-sorted_dictCityCrime = sorted(dictCityCrime.items(), key=operator.itemgetter(1))
-
-for row in ucrData[1:]:
-    rankedCityState = "%s, %s" % (row[2], row[1])
-
-    try:
-        cityRank = [y[0] for y in sorted_dictCityCrime].index(rankedCityState)
-        #print rankedCityState, cityRank
-    except ValueError:
-        i = -1
-
 
 print lowestCrimeRateCity, "had the lowest crime rate at %.0f" % crimeRateLowest
 print highestCrimeRateCity, "had the highest crime rate at %.0f" % crimeRateLowest
 print cityState
-
-    #The total crime rate in Lincoln, NE decreased from 1195 in 2000 to 786 in 2010, a 31.34 percent drop. It's the 4th largest decline in the US, with Burwell, NE leading the nation.
-
-Charlotte police reported a 22 percent increase in overall crime compared to last year. Violent crime rose 37% to 4545 per 100,000 residents.
-property crime in the city rose 45%. this is an increse from 3343 to 3443 per 100000 compared to 2011
 
 """
