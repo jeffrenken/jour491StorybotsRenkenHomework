@@ -206,13 +206,13 @@ emailMessage = message1 + message2 + message3
 
 
 ######### Email ############
-#message = ("This should be the message. Total=%s. Total2 =%s") % (total, total2,)
+
 message = emailMessage
 
-GMAIL_USERNAME = 'lincolnautothefts@gmail.com'
+GMAIL_USERNAME = ''
 GMAIL_PASSWORD = ''
 email_subject  = "LPD Crime Story"
-recipient = "renkenjj@hotmail.com"
+recipient = ""
 
 session = smtplib.SMTP('smtp.gmail.com', 587)
 session.ehlo()
