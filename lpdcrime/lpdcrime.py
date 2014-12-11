@@ -13,10 +13,10 @@ from email.header    import Header
 from email.mime.text import MIMEText
 
 ######## Twitter ###########
-API_KEY = '6ClqYMrRBEQtWMst7o1BKFFSC'
-API_SECRET = 'hiPljkxzgZUTwXI6G0yQXGfbvqmXH8oQMnICvpJMElccoY1sO4'
-ACCESS_TOKEN = '2924198000-h5lJkY27oP3KJwlORY1YmKum7wThsmfR0HzITbi'
-ACCESS_TOKEN_SECRET = 'C9M6GNJxuFUVll75YOSS0NdzBBuMRcP6HTadCRo0RZ6rl'
+API_KEY = ''
+API_SECRET = ''
+ACCESS_TOKEN = ''
+ACCESS_TOKEN_SECRET = ''
 twitter = Twython(API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 
 
@@ -210,7 +210,7 @@ emailMessage = message1 + message2 + message3
 message = emailMessage
 
 GMAIL_USERNAME = 'lincolnautothefts@gmail.com'
-GMAIL_PASSWORD = 'QwErTyUi'
+GMAIL_PASSWORD = ''
 email_subject  = "LPD Crime Story"
 recipient = "renkenjj@hotmail.com"
 
