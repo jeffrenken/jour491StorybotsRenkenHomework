@@ -1,7 +1,9 @@
-#Reads the LPD daily crime stats page, and adds totals to a database.
+#The Lincoln Police Crime stats page is fairly awful, so I made this.
+#Scrapes the LPD daily crime stats page, and adds stats to a database.
 #Tweets from @lincolncartheft the location and description of vehicle whenever 'AUTO THEFT' is reported
 #Writes a few sentences based on the type of call and amount
-#Emails the paragraph
+#Emails this paragraph to myself-right now the paragraph is fairly pointless.
+#I could easily modify the DB query to return whatever info is necessary.
 
 import urllib, urllib2, string, datetime, time, json, re, sqlite3, sys, smtplib
 

@@ -1,7 +1,8 @@
 # twitter/NebraskaUFOs
+#scrapes a webpage, auto tweets
 # Reads the Nebraska table from the National UFO Reporting Center and sends a tweet with info and link for any new sighting
 # Put ufoNE.txt in the same directory, or I think you can run the program once with the tweet status commented out
-# I don't really know what libraries are necessary, nor do I know how the url shortener works. But it works.
+
 # Right now, the Anniversary section isn't included
 # For different states only the abbreviations would need to be changed
 
